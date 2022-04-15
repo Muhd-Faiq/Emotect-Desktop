@@ -8,14 +8,15 @@ base_url = "https://us-central1-emotect-bd3d5.cloudfunctions.net/api"
 
 
 def getDecoded():
-    global decoded
+    global decoded,iduser
+    iduser='temp'
     key='super-secret'
     # payload={"id":"1","email":"myemail@gmail.com" }
     # token = jwt.encode(payload, key)
     # print (token)
     decoded = jwt.decode(tempToken, options={"verify_signature": False}) # works in PyJWT >= v2.0
-    print (decoded)
-    print (decoded["email"])
+    iduser=decoded["user_id"]
+    
     
 
 def signin(email,password):
@@ -26,14 +27,10 @@ def signin(email,password):
     }
     response = requests.post(api_url, json=todo)
 
-    
-    
-    print(response.status_code)
     if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
         try:
-            print("qwe")
+            print("siginsuccess")
             json_data = json.loads(response.text)
-            print(json_data["idToken"])
             global tempToken
             tempToken=json_data["idToken"]
             getDecoded()
@@ -62,7 +59,7 @@ def postEmotion(emotion,starttime,endtime,date):  #get _defaultHeaders
 
     if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
         try:
-            print("yezza")
+            print("postemotionsuccess")
             json_data = json.loads(response.text)
             return response
             # return response.json()
@@ -72,23 +69,14 @@ def postEmotion(emotion,starttime,endtime,date):  #get _defaultHeaders
 
 def getEmotion():  #get _defaultHeaders
     api_url = base_url+"/emotions?userid="+decoded["user_id"]
-    # todo = {
-    #     "emotion": emotion,
-    #     "starttime": starttime,
-    #     "endtime": endtime,
-    #     "date": date
-    # }
-    # print(tempToken)
-    print(decoded["user_id"])
     bearerToken='Bearer '+tempToken
     headers = {'Content-type': 'application/json', 'Authorization': bearerToken}
     response = requests.get(api_url,headers=headers)
 
     if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
         try:
-            print("yezza")
+            print("getemotionsuccess")
             json_data = json.loads(response.text)
-            print(response.text)
             return response
             # return response.json()
         except ValueError:

@@ -1,5 +1,4 @@
 import tkinter as tk
-from PIL import Image, ImageTk
 from cv2 import add
 from pyparsing import col
 from deepfaceT.deepface.DeepFace import stream
@@ -21,6 +20,7 @@ class myFrame1(tk.Tk):
         container.grid_columnconfigure(0, weight = 1)
 
         self.frames = {}
+        self.visible_frame = "StartPage"
 
         for F in (startPage, pageOne):
             frame = F(container, self)  #startPage继承了container
@@ -30,8 +30,11 @@ class myFrame1(tk.Tk):
         self.show_frame(startPage)
 
     def show_frame(self, page_name):
+        print(page_name.__name__)
         frame = self.frames[page_name]
+        self.visible_frame = page_name
         frame.tkraise()
+
 
     def get_page(self, page_name):
         for page in self.frames.values():

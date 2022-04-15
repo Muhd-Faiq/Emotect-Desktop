@@ -25,6 +25,10 @@ class startPage(Frame):
             import temppage2
 
 
+        self.tempvalue = Entry(self)
+        self.tempvalue.delete(0,END)
+        self.tempvalue.insert(0,'False')
+
         def sign():
             error_label.place_forget()
             result=signin(email_input.get(),password_input.get())
@@ -41,8 +45,6 @@ class startPage(Frame):
                 # token = jwt.encode(payload, key)
                 # print (token)
                 decoded = jwt.decode(json_data["idToken"], options={"verify_signature": False}) # works in PyJWT >= v2.0
-                print (decoded)
-                print (decoded["email"])
 
                 self.labeljson_data = Entry(self)
                 self.labeljson_data.delete(0,END)
@@ -50,17 +52,22 @@ class startPage(Frame):
                 self.labeljson_data.insert(0,decoded)
 
                 
+                self.tempvalue.delete(0,END)
+                self.tempvalue.insert(0,'True')
+
                 
                 
+                # pageOne.getEmotionData()
+                self.controller.get_page("pageOne").getEmotionData()
+                # controller.destroy_frame(pageOne)
                 controller.show_frame(pageOne)
                 # Page2(self).show
                 # nextPage()
             elif result.status_code==None:
-                print(result.status_code)
+                print("signinNone")
                 error_label.place(x=375,y=400, anchor=CENTER)
             else:
                 print(result.status_code)
-                print("yayay")
         
         f = ("Times bold", 14)
         def cancel():
