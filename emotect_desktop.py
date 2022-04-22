@@ -7,6 +7,7 @@ from tkinter.ttk import Progressbar
 # import ttk
 from sign_in import *
 from home import *
+from manage_user import *
 
 
 
@@ -22,7 +23,7 @@ class myFrame1(tk.Tk):
         self.frames = {}
         self.visible_frame = "StartPage"
 
-        for F in (startPage, pageOne):
+        for F in (startPage, pageOne, manageUserPage):
             frame = F(container, self)  #startPage继承了container
             frame.grid(row=0, column=0, sticky="nsew")
             self.frames[F] = frame

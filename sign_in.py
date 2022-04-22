@@ -6,6 +6,7 @@ from deepfaceT.deepface.DeepFace import stream
 from auth import *
 from tkinter.ttk import Progressbar
 from home import *
+from manage_user import *
 import json
 import jwt
 
@@ -29,6 +30,8 @@ class startPage(Frame):
         self.tempvalue.delete(0,END)
         self.tempvalue.insert(0,'False')
 
+        self.labeljson_data = Entry(self)
+
         def sign():
             error_label.place_forget()
             result=signin(email_input.get(),password_input.get())
@@ -46,18 +49,20 @@ class startPage(Frame):
                 # print (token)
                 decoded = jwt.decode(json_data["idToken"], options={"verify_signature": False}) # works in PyJWT >= v2.0
 
-                self.labeljson_data = Entry(self)
+                
                 self.labeljson_data.delete(0,END)
                 # self.labeljson_data.insert(0,json_data["idToken"])
                 self.labeljson_data.insert(0,decoded)
 
-                
+                print(decoded)
                 self.tempvalue.delete(0,END)
                 self.tempvalue.insert(0,'True')
 
                 
                 
                 # pageOne.getEmotionData()
+                self.controller.get_page("manageUserPage").showTable()
+                self.controller.get_page("pageOne").showmanageuserbutton()
                 self.controller.get_page("pageOne").getEmotionData()
                 # controller.destroy_frame(pageOne)
                 controller.show_frame(pageOne)
@@ -67,6 +72,7 @@ class startPage(Frame):
                 print("signinNone")
                 error_label.place(x=375,y=400, anchor=CENTER)
             else:
+                error_label.place(x=375,y=400, anchor=CENTER)
                 print(result.status_code)
         
         f = ("Times bold", 14)
@@ -99,7 +105,7 @@ class startPage(Frame):
         part_label.place(x=277.5,y=330, anchor=CENTER)
         # part_label.pack()
         
-        self.password_input=Entry(self,textvariable=password_input)
+        self.password_input=Entry(self,textvariable=password_input,show="\u2022")
         self.password_input.place(x=375,y=357.5, anchor=CENTER,width=300)
         # self.password_input.pack()
 

@@ -12,6 +12,8 @@ from tkcalendar import *
 import datetime
 # from page5 import *
 import sign_in
+from manage_user import *
+import json
 
 import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -40,8 +42,7 @@ class pageOne(Frame):
         
         
         
-        startpage = self.controller.get_page("startPage")
-        value = startpage.tempvalue.get()
+        
         
         
         # b1 = Button(self, text = "go home", command = lambda: self.controller.show_frame(sign_in.startPage))
@@ -72,13 +73,9 @@ class pageOne(Frame):
         add_btn=Button(self,text='Detect Emotion',width=12,command=self.add_item)
         add_btn.place(x=375,y=257.5, anchor=CENTER,width=300)
         
-        #Buttons
-        cancel_btn=Button(self,text='Cancel',width=12,command=self.cancel)
-        cancel_btn.place(x=375,y=340, anchor=CENTER,width=300)
         
-        #Buttons
-        next_btn=Button(self,text='Previous Page',width=12,command=self.prevPage)
-        next_btn.place(x=375,y=400, anchor=CENTER,width=300)
+        
+        
 
         #Buttons
         temp_btn=Button(self,text='Temp Page',width=12,command= lambda: self.print_it)
@@ -87,6 +84,18 @@ class pageOne(Frame):
         #Buttons
         datepicker_btn=Button(self,text='Calendar',width=12,command= lambda: self.show_calendar())
         datepicker_btn.place(x=375,y=460, anchor=CENTER,width=300)
+
+    def showmanageuserbutton(self):
+        print(type(returnDecoded()))
+        self.decodedvalue=returnDecoded()
+        #Buttons
+        if "admin" in self.decodedvalue:
+            if self.decodedvalue["admin"]==True:
+                manage_user_btn=Button(self,text='Manage User',width=12,command=self.prevPage)
+                manage_user_btn.place(x=375,y=400, anchor=CENTER,width=300)
+                #Buttons
+                manage_dectection_btn=Button(self,text='Manage Detection',width=12,command=self.cancel)
+                manage_dectection_btn.place(x=375,y=340, anchor=CENTER,width=300)
 
     def getEmotionData(self):
         numangry=0
@@ -230,7 +239,7 @@ class pageOne(Frame):
         self.framecalendar=Frame(self,width=380,height=300,highlightbackground='black',highlightthickness=3)
         self.framecalendar.place(x=375,y=152.5, anchor=CENTER)
         #last7 widget
-        self.lastseven_label=Button(self.framecalendar,text='Last 7 Days',command=self.back_from_cal)
+        self.lastseven_label=Button(self.framecalendar,text='Last 7 Days',command=self.last_seven)
         self.lastseven_label.place(x=45,y=45, anchor=CENTER,width=80)
         #month dropdown widget
         self.monthOpt = [
@@ -262,6 +271,65 @@ class pageOne(Frame):
         #choose date widget
         backfromcal_btn=Button(self.framecalendar,text='Back',width=12,command=self.back_from_cal)
         backfromcal_btn.place(x=280,y=250, anchor=CENTER,width=100)
+
+    def last_seven(self):
+        curdate=datetime.date.today()
+        print(curdate)
+        print(curdate-datetime.timedelta(days=7))
+        numhappy=0
+        numneutral=0
+        numangry=0
+        numsad=0
+        numdisgust=0
+        numsurprise=0
+        numfear=0
+        json_data = json.loads(self.result.text)
+        
+        for value in json_data:
+            tempdate=datetime.datetime.strptime(value["date"], "%d/%m/%Y").date()
+            print(tempdate)
+            print("curdate")
+            
+            for x in range(7): 
+                print(curdate-datetime.timedelta(days=x))
+                if(tempdate==(curdate-datetime.timedelta(days=x))):
+                    print("samedate")
+                    for valueEmo in value["emotion"]:
+                        if "Happy" in valueEmo:
+                            numhappy=numhappy+1
+                            # self.emoobj.happy=numhappy
+                        elif "Neutral" in valueEmo:
+                            numneutral=numneutral+1
+                            # self.emoobj.neutral=numneutral
+                        elif "Angry" in valueEmo:
+                            numangry=numangry+1
+                            # self.emoobj.angry=numangry
+                        elif "Sad" in valueEmo:
+                            numsad=numsad+1
+                            # self.emoobj.sad=numsad
+                        elif "Disgust" in valueEmo:
+                            numdisgust=numdisgust+1
+                            # self.emoobj.disgust=numdisgust
+                        elif "Surprise" in valueEmo:
+                            numsurprise=numsurprise+1
+                            # self.emoobj.surprise=numsurprise
+                        elif "Fear" in valueEmo:
+                            numfear=numfear+1
+                            # self.emoobj.fear=numfear
+                        else:
+                            print(valueEmo)
+
+        
+        self.emoobj.happy=numhappy
+        self.emoobj.neutral=numneutral
+        self.emoobj.angry=numangry
+        self.emoobj.sad=numsad
+        self.emoobj.disgust=numdisgust
+        self.emoobj.surprise=numsurprise
+        self.emoobj.fear=numfear
+        self.framecalendar.place_forget()
+        self.show_canvas()
+
 
     def choose_month(self,args):
         print(self.variable.get())
@@ -402,12 +470,11 @@ class pageOne(Frame):
         self.framecalendar.place_forget()
     
     def cancel(self):
-        print("yes")
-        # cap.release()
-        # # cv2.destroyAllWindows()
-        #
+        self.controller.show_frame(manageUserPage)
+
+        
     def prevPage(self):
-        self.destroy()
+        self.controller.show_frame(manageUserPage)
             
 
     def print_it(self):

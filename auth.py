@@ -17,7 +17,8 @@ def getDecoded():
     decoded = jwt.decode(tempToken, options={"verify_signature": False}) # works in PyJWT >= v2.0
     iduser=decoded["user_id"]
     
-    
+def returnDecoded():
+    return decoded
 
 def signin(email,password):
     api_url = base_url+"/auths/signin"
@@ -37,7 +38,9 @@ def signin(email,password):
             return response
             # return response.json()
         except ValueError:
-            print("nono")
+            return response
+    else:
+        return response
     
     def getToken():
         return tempToken
@@ -81,6 +84,22 @@ def getEmotion():  #get _defaultHeaders
             # return response.json()
         except ValueError:
             print("nonoPostEmo")
+
+
+def getUser():  #get _defaultHeaders
+    api_url = base_url+"/users"
+    bearerToken='Bearer '+tempToken
+    headers = {'Content-type': 'application/json', 'Authorization': bearerToken}
+    response = requests.get(api_url,headers=headers)
+
+    if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
+        try:
+            print("getusersuccess")
+            json_data = json.loads(response.text)
+            return response
+            # return response.json()
+        except ValueError:
+            print("nonoGetUser")
 
        
         
