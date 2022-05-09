@@ -101,5 +101,54 @@ def getUser():  #get _defaultHeaders
         except ValueError:
             print("nonoGetUser")
 
+
+
+def registerAccount(email,password,name):
+    api_url = base_url+"/auths/signup"
+    todo = {
+        "email": email,
+        "password": password,
+        "displayName": name
+    }
+    response = requests.post(api_url, json=todo)
+
+    if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
+        try:
+            print("registersuccess")
+            json_data = json.loads(response.text)
+            global tempToken
+            tempToken=json_data["idToken"]
+            getDecoded()
+            print(decoded["user_id"])
+            createUserProfile(email,name,decoded["user_id"])
+            return response
+            # return response.json()
+        except ValueError:
+            return response
+    else:
+        return response
+
+def createUserProfile(email,name,regid):
+    api_url = base_url+"/users/"+regid
+    print(tempToken)
+    bearerToken='Bearer '+tempToken
+    headers = {'Content-type': 'application/json', 'Authorization': bearerToken}
+    todo = {
+        "email": email,
+        "name": name,
+        "role": "user"
+    }
+    response = requests.post(api_url, json=todo,headers=headers)
+    print("createUserProfile")
+    print(response.status_code)
+    if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
+        try:
+            print("createUserProfilesuccess")
+            return response
+            # return response.json()
+        except ValueError:
+            return response
+    else:
+        return response
        
         

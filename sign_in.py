@@ -6,6 +6,7 @@ from deepfaceT.deepface.DeepFace import stream
 from auth import *
 from tkinter.ttk import Progressbar
 from home import *
+import register
 from manage_user import *
 import json
 import jwt
@@ -61,8 +62,11 @@ class startPage(Frame):
                 
                 
                 # pageOne.getEmotionData()
-                self.controller.get_page("manageUserPage").showTable()
-                self.controller.get_page("pageOne").showmanageuserbutton()
+                self.decodedvalue=returnDecoded()
+                if "admin" in self.decodedvalue:
+                    if self.decodedvalue["admin"]==True:
+                        self.controller.get_page("manageUserPage").showTable()
+                        self.controller.get_page("pageOne").showmanageuserbutton()
                 self.controller.get_page("pageOne").getEmotionData()
                 # controller.destroy_frame(pageOne)
                 controller.show_frame(pageOne)
@@ -84,6 +88,9 @@ class startPage(Frame):
         def add_item():
             while(num==1):
                 stream()
+        
+        def registerfunction():
+            self.controller.show_frame(register.registerPage)
         
         canvas = Canvas(self, width = 200, height = 210)
         canvas.place(x=375,y=82.5, anchor=CENTER)
@@ -115,8 +122,12 @@ class startPage(Frame):
         
 
         sign_btn=Button(self,text='Sign In',width=12,command=sign)
-        sign_btn.place(x=375, y=440, anchor=CENTER)
+        sign_btn.place(x=320, y=440, anchor=CENTER)
         # sign_btn.pack()
+
+        register_btn=Button(self,text='Register',width=12,command=registerfunction)
+        register_btn.place(x=415, y=440, anchor=CENTER)
+        
         
     def make_widget(self, controller):
         some_input = "test input widget"

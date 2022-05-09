@@ -23,7 +23,7 @@ import numpy as np
 import threading
 
 from EmotionObj import EmotionObj
-
+import tkinter.font as font
 
 
 
@@ -41,7 +41,7 @@ class pageOne(Frame):
         global numangry,numhappy,numneutral,numsad,numdisgust,numsurprise,numfear
         
         
-        
+        self.myFont = font.Font(size=16)
         
         
         
@@ -66,24 +66,18 @@ class pageOne(Frame):
         # canvas.create_arc((2,2,150,150),fill="orange",outline="orange",start=self.angle(800),extent=self.angle(200))
         # canvas.create_arc((2,2,150,150),fill="orange",outline="orange",start=self.angle(800),extent=self.angle(200))
 
-        
+
+        #Buttons
+        datepicker_btn=Button(self,text='Filter',bg='yellow', fg='black',width=12,command= lambda: self.show_calendar())
+        datepicker_btn.place(x=600,y=160.5, anchor=CENTER,width=100) 
 
         
         #Buttons
         add_btn=Button(self,text='Detect Emotion',width=12,command=self.add_item)
-        add_btn.place(x=375,y=257.5, anchor=CENTER,width=300)
-        
-        
-        
+        add_btn.place(x=375,y=300, anchor=CENTER,width=200)
         
 
-        #Buttons
-        temp_btn=Button(self,text='Temp Page',width=12,command= lambda: self.print_it)
-        temp_btn.place(x=375,y=440, anchor=CENTER,width=300)
 
-        #Buttons
-        datepicker_btn=Button(self,text='Calendar',width=12,command= lambda: self.show_calendar())
-        datepicker_btn.place(x=375,y=460, anchor=CENTER,width=300)
 
     def showmanageuserbutton(self):
         print(type(returnDecoded()))
@@ -91,11 +85,11 @@ class pageOne(Frame):
         #Buttons
         if "admin" in self.decodedvalue:
             if self.decodedvalue["admin"]==True:
-                manage_user_btn=Button(self,text='Manage User',width=12,command=self.prevPage)
-                manage_user_btn.place(x=375,y=400, anchor=CENTER,width=300)
+                manage_user_btn=Button(self,text='Manage User',width=12,command=self.manageUsershow)
+                manage_user_btn.place(x=375,y=350, anchor=CENTER,width=200)
                 #Buttons
-                manage_dectection_btn=Button(self,text='Manage Detection',width=12,command=self.cancel)
-                manage_dectection_btn.place(x=375,y=340, anchor=CENTER,width=300)
+                manage_dectection_btn=Button(self,text='Manage Detection',width=12,command=self.manageDetectshow)
+                manage_dectection_btn.place(x=375,y=400, anchor=CENTER,width=200)
 
     def getEmotionData(self):
         numangry=0
@@ -469,11 +463,11 @@ class pageOne(Frame):
     def back_from_cal(self):
         self.framecalendar.place_forget()
     
-    def cancel(self):
+    def manageDetectshow(self):
         self.controller.show_frame(manageUserPage)
 
         
-    def prevPage(self):
+    def manageUsershow(self):
         self.controller.show_frame(manageUserPage)
             
 

@@ -24,6 +24,7 @@ class manageUserPage(Frame):
         numhappy=0
         numneutral=0
         self.result=getUser()
+        
         if self.result.status_code==200:
             print(self.result.status_code)
             self.json_data = json.loads(self.result.text)
