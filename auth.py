@@ -151,4 +151,26 @@ def createUserProfile(email,name,regid):
     else:
         return response
        
-        
+
+def updateDataUser(email,name,dataid):
+    api_url = base_url+"/users/"+dataid
+    bearerToken='Bearer '+tempToken
+    headers = {'Content-type': 'application/json', 'Authorization': bearerToken}
+    todo = {
+        "email": email,
+        "name": name,
+        "role": "user"
+    }
+    response = requests.put(api_url, json=todo,headers=headers)
+
+    if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
+        try:
+            print("updateUserdatasuccess")
+            json_data = json.loads(response.text)
+            getDecoded()
+            return response
+            # return response.json()
+        except ValueError:
+            return response
+    else:
+        return response

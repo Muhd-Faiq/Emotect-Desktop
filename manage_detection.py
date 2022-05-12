@@ -11,7 +11,7 @@ import jwt
 import home
 from UserObj import UserObj
 
-class manageUserPage(Frame):
+class manageDetectionPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller

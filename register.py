@@ -128,7 +128,7 @@ class registerPage(Frame):
         some_input = "test input widget"
         self.some_entry = Entry(self, textvariable=some_input, width=8)
         self.some_entry.pack()
-        button1 = Button(self, text='Confirm and go to next page', command=lambda: controller.show_frame(pageOne))
+        button1 = Button(self, text='Confirm and go to next page', command=lambda: controller.show_frame(sign_in.pageOne))
         button1.pack()
 
 
