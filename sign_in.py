@@ -67,6 +67,7 @@ class startPage(Frame):
                     if self.decodedvalue["admin"]==True:
                         self.controller.get_page("manageUserPage").showTable()
                         self.controller.get_page("pageOne").showmanageuserbutton()
+                        self.controller.get_page("manageDetectionPage").showDetectionTable()
                 self.controller.get_page("pageOne").getEmotionData()
                 # controller.destroy_frame(pageOne)
                 controller.show_frame(pageOne)

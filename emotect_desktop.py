@@ -9,6 +9,7 @@ from sign_in import *
 from home import *
 from manage_user import *
 from manage_detection import *
+from manage_detection_two import *
 from register import *
 
 
@@ -25,7 +26,7 @@ class myFrame1(tk.Tk):
         self.frames = {}
         self.visible_frame = "StartPage"
 
-        for F in (startPage,registerPage, pageOne, manageUserPage, manageDetectionPage):
+        for F in (startPage,registerPage, pageOne, manageUserPage, manageDetectionPage,manageDetectionTwoPage):
             frame = F(container, self)  #startPage继承了container
             frame.grid(row=0, column=0, sticky="nsew")
             self.frames[F] = frame

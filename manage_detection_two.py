@@ -10,24 +10,30 @@ import json
 import jwt
 import home
 from UserObj import UserObj
-from manage_detection_two import *
+import manage_detection
 
-class manageDetectionPage(Frame):
+class manageDetectionTwoPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
 
         self.userobj=UserObj()
 
-    def showDetectionTable(self):
+    def showTable(self):
         #retrieve data
-        self.result=getDetection()
+        managedetectionpage = self.controller.get_page("manageDetectionPage")
+        value = managedetectionpage.labelUserid.get()
+        self.result=getSpecificDecision(value)
         
         if self.result.status_code==200:
             print(self.result.status_code)
             self.json_data = json.loads(self.result.text)
-            self.tempArrayJson=getTempArrayJson()
             
+            
+            
+            # self.userobj.name=numhappy
+            # self.userobj.email=numneutral
+            # self.userobj.role=numangry
 
 
         #start
@@ -50,30 +56,78 @@ class manageDetectionPage(Frame):
         self.game_scroll.config(command=self.my_game.xview)
 
         #define our column
+        # self._happy = None
+        # self._angry = None
+        # self._neutral = None
+        # self._sad = None
+        # self._disgust = None
+        # self._surprise = None
+        # self._fear = None
         
-        self.my_game['columns'] = ('player_Name', 'player_Email', 'player_Id')
+        self.my_game['columns'] = ('player_Date','player_StartTime','player_EndTime', 'player_Happy','player_Angry','player_Neutral','player_Sad','player_Disgust','player_Surprise','player_Fear', 'player_Id')
 
         # format our column
         self.my_game.column("#0", width=0,  stretch=NO)
-        self.my_game.column("player_Name",anchor=CENTER, width=120)
-        self.my_game.column("player_Email",anchor=CENTER,width=120)
-        self.my_game.column("player_Id",anchor=CENTER,width=120)
+        self.my_game.column("player_Date",anchor=CENTER, width=90)
+        self.my_game.column("player_StartTime",anchor=CENTER, width=90)
+        self.my_game.column("player_EndTime",anchor=CENTER, width=90)
+        self.my_game.column("player_Happy",anchor=CENTER,width=50)
+        self.my_game.column("player_Angry",anchor=CENTER,width=50)
+        self.my_game.column("player_Neutral",anchor=CENTER,width=50)
+        self.my_game.column("player_Sad",anchor=CENTER,width=50)
+        self.my_game.column("player_Disgust",anchor=CENTER,width=50)
+        self.my_game.column("player_Surprise",anchor=CENTER,width=50)
+        self.my_game.column("player_Fear",anchor=CENTER,width=50)
+        self.my_game.column("player_Id",anchor=CENTER,width=90)
 
 
         #Create Headings 
         self.my_game.heading("#0",text="",anchor=CENTER)
-        self.my_game.heading("player_Name",text="Name",anchor=CENTER)
-        self.my_game.heading("player_Email",text="Email",anchor=CENTER)
+        self.my_game.heading("player_Date",text="Date",anchor=CENTER)
+        self.my_game.heading("player_StartTime",text="StartTime",anchor=CENTER)
+        self.my_game.heading("player_EndTime",text="EndTime",anchor=CENTER)
+        self.my_game.heading("player_Happy",text="Happy",anchor=CENTER)
+        self.my_game.heading("player_Angry",text="Angry",anchor=CENTER)
+        self.my_game.heading("player_Neutral",text="Neutral",anchor=CENTER)
+        self.my_game.heading("player_Sad",text="Sad",anchor=CENTER)
+        self.my_game.heading("player_Disgust",text="Disgust",anchor=CENTER)
+        self.my_game.heading("player_Surprise",text="Surprise",anchor=CENTER)
+        self.my_game.heading("player_Fear",text="Fear",anchor=CENTER)
         self.my_game.heading("player_Id",text="Id",anchor=CENTER)
 
 
+        
 
         ##loop
         num=1
-        for userdata in self.tempArrayJson:
+        for userdata in self.json_data:
             print(userdata)
+            self.numtemphappy = 0
+            self.numtempangry = 0
+            self.numtempneutral = 0
+            self.numtempsad = 0
+            self.numtempdisgust = 0
+            self.numtempsurprise = 0
+            self.numtempfear = 0
+            for objemotion in userdata['emotion']:
+                print(objemotion)
+                if 'Happy' in objemotion:
+                    print(objemotion)
+                    self.numtemphappy=self.numtemphappy+1
+                if 'Angry' in objemotion:
+                    self.numtempangry=self.numtempangry+1
+                if 'Neutral' in objemotion:
+                    self.numtempneutral=self.numtempneutral+1
+                if 'Sad' in objemotion:
+                    self.numtempsad=self.numtempsad+1
+                if 'Disgust' in objemotion:
+                    self.numtempdisgust=self.numtempdisgust+1
+                if 'Surprise' in objemotion:
+                    self.numtempsurprise=self.numtempsurprise+1
+                if 'Fear' in objemotion:
+                    self.numtempfear=self.numtempfear+1
             self.my_game.insert(parent='',index='end',iid=num,text='',
-            values=(userdata['name'],userdata['email'],userdata['id']))
+            values=(userdata['date'],userdata['starttime'],userdata['endtime'],self.numtemphappy,self.numtempangry,self.numtempneutral,self.numtempsad,self.numtempdisgust,self.numtempsurprise,self.numtempfear,userdata['id']))
             num=num+1
 
 
@@ -124,12 +178,6 @@ class manageDetectionPage(Frame):
             self.tempplayerid_entry=values[2]
             print(self.tempplayerid_entry)
 
-            self.labelUserid = Entry(self)
-            self.labelUserid.delete(0,END)
-            self.labelUserid.insert(0,self.tempplayerid_entry)
-            self.controller.get_page("manageDetectionTwoPage").showTable()
-            self.controller.show_frame(manageDetectionTwoPage)
-
         #save Record
         def update_record():
             selected=self.my_game.focus()
@@ -155,7 +203,7 @@ class manageDetectionPage(Frame):
             # self.my_game.item(selected,text="",values=(self.playername_entry.get(),self.playeremail_entry.get(),self.playerid_entry.get()))
 
         def backPage():
-            self.controller.show_frame(home.pageOne)
+            self.controller.show_frame(manage_detection.manageDetectionPage)
             
         #clear entry boxes
             self.playername_entry.delete(0,END)
@@ -163,9 +211,9 @@ class manageDetectionPage(Frame):
             # self.playerid_entry.delete(0,END)
 
         #Buttons
-        self.select_button = Button(self,text="Select Record", command=select_record)
+        # self.select_button = Button(self,text="Select Record", command=select_record)
         # self.select_button.pack(pady =10)
-        self.select_button.place(x=375,y=340, anchor=CENTER)
+        # self.select_button.place(x=375,y=340, anchor=CENTER)
 
         # self.edit_button = Button(self,text="Edit ",command=update_record)
         # self.edit_button.pack(pady = 10)

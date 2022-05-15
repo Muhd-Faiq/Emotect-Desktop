@@ -96,6 +96,8 @@ def getUser():  #get _defaultHeaders
         try:
             print("getusersuccess")
             json_data = json.loads(response.text)
+            global users_json_data
+            users_json_data=json_data
             return response
             # return response.json()
         except ValueError:
@@ -174,3 +176,49 @@ def updateDataUser(email,name,dataid):
             return response
     else:
         return response
+
+
+
+def getDetection():  #get _defaultHeaders
+    api_url = base_url+"/emotions"
+    bearerToken='Bearer '+tempToken
+    headers = {'Content-type': 'application/json', 'Authorization': bearerToken}
+    response = requests.get(api_url,headers=headers)
+
+    if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
+        try:
+            print("getemotiondatasuccess")
+            json_data = json.loads(response.text)
+            global tempArrayJson
+            tempArrayJson=[]
+            for value_user in users_json_data:
+                for value in json_data:
+                    if value["userid"]==value_user["id"]:
+                        x = { "name": value_user["name"],"email": value_user["email"],"id": value_user["id"]}
+                        tempArrayJson.append(x)
+                        break
+            return response
+            # return response.json()
+        except ValueError:
+            print("nonoGetUser")
+
+def getTempArrayJson():
+    return tempArrayJson
+
+
+def getSpecificDecision(tempuserid):  #get _defaultHeaders
+    api_url = base_url+"/emotions?userid="+tempuserid
+    bearerToken='Bearer '+tempToken
+    headers = {'Content-type': 'application/json', 'Authorization': bearerToken}
+    response = requests.get(api_url,headers=headers)
+
+    if (response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json")):
+        try:
+            print("getspecificemotionsuccess")
+            json_data = json.loads(response.text)
+            global users_json_data
+            users_json_data=json_data
+            return response
+            # return response.json()
+        except ValueError:
+            print("nonoGetUser")

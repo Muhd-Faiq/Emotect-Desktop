@@ -13,6 +13,7 @@ import datetime
 # from page5 import *
 import sign_in
 from manage_user import *
+from manage_detection import *
 import json
 
 import pandas as pd
@@ -88,7 +89,7 @@ class pageOne(Frame):
                 manage_user_btn=Button(self,text='Manage User',width=12,command=self.manageUsershow)
                 manage_user_btn.place(x=375,y=350, anchor=CENTER,width=200)
                 #Buttons
-                manage_dectection_btn=Button(self,text='Manage Detection',width=12,command=self.manageDetectshow)
+                manage_dectection_btn=Button(self,text='View Detection',width=12,command=self.manageDetectshow)
                 manage_dectection_btn.place(x=375,y=400, anchor=CENTER,width=200)
 
     def getEmotionData(self):
@@ -464,7 +465,7 @@ class pageOne(Frame):
         self.framecalendar.place_forget()
     
     def manageDetectshow(self):
-        self.controller.show_frame(manageUserPage)
+        self.controller.show_frame(manageDetectionPage)
 
         
     def manageUsershow(self):
