@@ -10,9 +10,9 @@ import json
 import jwt
 import home
 from UserObj import UserObj
-import manage_detection
+from sign_in import *
 
-class manageDetectionTwoPage(Frame):
+class viewData(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
@@ -21,9 +21,14 @@ class manageDetectionTwoPage(Frame):
 
     def showTable(self):
         #retrieve data
-        managedetectionpage = self.controller.get_page("manageDetectionPage")
-        value = managedetectionpage.labelUserid.get()
-        self.result=getSpecificDecision(value)
+        # startpage = self.controller.get_page("startPage")
+        # value = startpage.labeljson_data.get()
+        # print("self.labeljson_data")
+        # print(value)
+        # print(value[0]['aud'])
+        # print(value['user_id'])
+        # self.result=getSpecificDecision(value['user_id'])
+        self.result=getEmotion()
         
         if self.result.status_code==200:
             print(self.result.status_code)
@@ -49,7 +54,7 @@ class manageDetectionTwoPage(Frame):
 
         self.my_game = ttk.Treeview(self.game_frame,yscrollcommand=self.game_scroll.set, xscrollcommand =self.game_scroll.set)
 
-            
+
         self.my_game.pack()
 
         self.game_scroll.config(command=self.my_game.yview)
@@ -203,17 +208,11 @@ class manageDetectionTwoPage(Frame):
             # self.my_game.item(selected,text="",values=(self.playername_entry.get(),self.playeremail_entry.get(),self.playerid_entry.get()))
 
         def backPage():
-            # self.game_frame.pack_forget()
-            self.game_frame.destroy()
-            self.game_scroll.destroy()
-            self.my_game.destroy()
-            self.frame2.destroy()
-            self.temp_label.destroy()
-            self.controller.show_frame(manage_detection.manageDetectionPage)
+            self.controller.show_frame(home.pageOne)
             
         #clear entry boxes
-            # self.playername_entry.delete(0,END)
-            # self.playeremail_entry.delete(0,END)
+            self.playername_entry.delete(0,END)
+            self.playeremail_entry.delete(0,END)
             # self.playerid_entry.delete(0,END)
 
         #Buttons
@@ -231,7 +230,7 @@ class manageDetectionTwoPage(Frame):
 
         self.temp_label =Label(self,text="")
         self.temp_label.pack()
-        
+
         #end
 
         

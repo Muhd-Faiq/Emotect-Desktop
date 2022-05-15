@@ -6,6 +6,7 @@ from deepfaceT.deepface.DeepFace import stream
 from auth import *
 from tkinter.ttk import Progressbar
 from home import *
+import home
 import register
 from manage_user import *
 import json
@@ -60,6 +61,8 @@ class startPage(Frame):
                 self.tempvalue.insert(0,'True')
 
                 
+
+                
                 
                 # pageOne.getEmotionData()
                 self.decodedvalue=returnDecoded()
@@ -68,9 +71,12 @@ class startPage(Frame):
                         self.controller.get_page("manageUserPage").showTable()
                         self.controller.get_page("pageOne").showmanageuserbutton()
                         self.controller.get_page("manageDetectionPage").showDetectionTable()
+                else:
+                    print("yess123")
+                    self.controller.get_page("viewData").showTable()
                 self.controller.get_page("pageOne").getEmotionData()
                 # controller.destroy_frame(pageOne)
-                controller.show_frame(pageOne)
+                controller.show_frame(home.pageOne)
                 # Page2(self).show
                 # nextPage()
             elif result.status_code==None:
@@ -134,7 +140,7 @@ class startPage(Frame):
         some_input = "test input widget"
         self.some_entry = Entry(self, textvariable=some_input, width=8)
         self.some_entry.pack()
-        button1 = Button(self, text='Confirm and go to next page', command=lambda: controller.show_frame(pageOne))
+        button1 = Button(self, text='Confirm and go to next page', command=lambda: controller.show_frame(home.pageOne))
         button1.pack()
 
 

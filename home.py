@@ -14,6 +14,8 @@ import datetime
 import sign_in
 from manage_user import *
 from manage_detection import *
+from view_data import *
+import view_data
 import json
 
 import pandas as pd
@@ -76,6 +78,9 @@ class pageOne(Frame):
         #Buttons
         add_btn=Button(self,text='Detect Emotion',width=12,command=self.add_item)
         add_btn.place(x=375,y=300, anchor=CENTER,width=200)
+
+        self.view_data_btn=Button(self,text='View Detection456',width=12,command=self.viewDataShow)
+        self.view_data_btn.place(x=375,y=350, anchor=CENTER,width=200)
         
 
 
@@ -91,6 +96,8 @@ class pageOne(Frame):
                 #Buttons
                 manage_dectection_btn=Button(self,text='View Detection',width=12,command=self.manageDetectshow)
                 manage_dectection_btn.place(x=375,y=400, anchor=CENTER,width=200)
+                self.view_data_btn.place_forget()
+
 
     def getEmotionData(self):
         numangry=0
@@ -470,6 +477,10 @@ class pageOne(Frame):
         
     def manageUsershow(self):
         self.controller.show_frame(manageUserPage)
+    
+    def viewDataShow(self):
+        # self.controller.get_page("viewData").showTable()
+        self.controller.show_frame(view_data.viewData)
             
 
     def print_it(self):
