@@ -71,9 +71,10 @@ class startPage(Frame):
                         self.controller.get_page("manageUserPage").showTable()
                         self.controller.get_page("pageOne").showmanageuserbutton()
                         self.controller.get_page("manageDetectionPage").showDetectionTable()
-                else:
-                    print("yess123")
-                    self.controller.get_page("viewData").showTable()
+                        # self.controller.get_page("viewData").showTable()
+                # else:
+                #     print("yess123")
+                #     self.controller.get_page("viewData").showTable()
                 self.controller.get_page("pageOne").getEmotionData()
                 # controller.destroy_frame(pageOne)
                 controller.show_frame(home.pageOne)

@@ -33,6 +33,8 @@ class viewData(Frame):
         if self.result.status_code==200:
             print(self.result.status_code)
             self.json_data = json.loads(self.result.text)
+            print("self.json_data")
+            print(self.json_data)
             
             
             
@@ -208,11 +210,16 @@ class viewData(Frame):
             # self.my_game.item(selected,text="",values=(self.playername_entry.get(),self.playeremail_entry.get(),self.playerid_entry.get()))
 
         def backPage():
+            self.game_frame.destroy()
+            self.game_scroll.destroy()
+            self.my_game.destroy()
+            self.frame2.destroy()
+            self.temp_label.destroy()
             self.controller.show_frame(home.pageOne)
             
         #clear entry boxes
-            self.playername_entry.delete(0,END)
-            self.playeremail_entry.delete(0,END)
+            # self.playername_entry.delete(0,END)
+            # self.playeremail_entry.delete(0,END)
             # self.playerid_entry.delete(0,END)
 
         #Buttons

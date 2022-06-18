@@ -71,6 +71,8 @@ def postEmotion(emotion,starttime,endtime,date):  #get _defaultHeaders
 
 
 def getEmotion():  #get _defaultHeaders
+    print("user_id")
+    print(decoded["user_id"])
     api_url = base_url+"/emotions?userid="+decoded["user_id"]
     bearerToken='Bearer '+tempToken
     headers = {'Content-type': 'application/json', 'Authorization': bearerToken}

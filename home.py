@@ -14,6 +14,7 @@ import datetime
 import sign_in
 from manage_user import *
 from manage_detection import *
+from manage_user_detection import *
 from view_data import *
 import view_data
 import json
@@ -79,8 +80,11 @@ class pageOne(Frame):
         add_btn=Button(self,text='Detect Emotion',width=12,command=self.add_item)
         add_btn.place(x=375,y=300, anchor=CENTER,width=200)
 
-        self.view_data_btn=Button(self,text='View Detection456',width=12,command=self.viewDataShow)
+        self.view_data_btn=Button(self,text='View Self Detection',width=12,command=self.viewDataShow)
         self.view_data_btn.place(x=375,y=350, anchor=CENTER,width=200)
+
+        # user_view_detection_btn=Button(self,text='View User Detection',width=12,command=self.manageUsershow)
+        # user_view_detection_btn.place(x=375,y=450, anchor=CENTER,width=200)
         
 
 
@@ -92,11 +96,14 @@ class pageOne(Frame):
         if "admin" in self.decodedvalue:
             if self.decodedvalue["admin"]==True:
                 manage_user_btn=Button(self,text='Manage User',width=12,command=self.manageUsershow)
-                manage_user_btn.place(x=375,y=350, anchor=CENTER,width=200)
+                manage_user_btn.place(x=375,y=400, anchor=CENTER,width=200)
                 #Buttons
                 manage_dectection_btn=Button(self,text='View Detection',width=12,command=self.manageDetectshow)
-                manage_dectection_btn.place(x=375,y=400, anchor=CENTER,width=200)
-                self.view_data_btn.place_forget()
+                manage_dectection_btn.place(x=375,y=450, anchor=CENTER,width=200)
+                # self.view_data_btn.place_forget()
+        # else:
+        #     user_view_detection_btn=Button(self,text='View User Detection',width=12,command=self.manageUsershow)
+        #     user_view_detection_btn.place(x=375,y=450, anchor=CENTER,width=200)
 
 
     def getEmotionData(self):
@@ -473,13 +480,17 @@ class pageOne(Frame):
     
     def manageDetectshow(self):
         self.controller.show_frame(manageDetectionPage)
+    
+    def manageUserDetectshow(self):
+        self.controller.get_page("manageUserDetectionPage").showTable()
+        self.controller.show_frame(manageUserDetectionPage)
 
         
     def manageUsershow(self):
         self.controller.show_frame(manageUserPage)
     
     def viewDataShow(self):
-        # self.controller.get_page("viewData").showTable()
+        self.controller.get_page("viewData").showTable()
         self.controller.show_frame(view_data.viewData)
             
 

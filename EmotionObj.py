@@ -12,17 +12,17 @@ class EmotionObj(object):
     @property
     def happy(self):
         """I'm the 'happy' property."""
-        print("getter of happy called")
+        # print("getter of happy called")
         return self._happy
 
     @happy.setter
     def happy(self, value):
-        print("setter of happy called")
+        # print("setter of happy called")
         self._happy = value
 
     @happy.deleter
     def happy(self):
-        print("deleter of happy called")
+        # print("deleter of happy called")
         del self._happy
 
     ####happy end#####
@@ -31,17 +31,17 @@ class EmotionObj(object):
     @property
     def angry(self):
         """I'm the 'angry' property."""
-        print("getter of angry called")
+        # print("getter of angry called")
         return self._angry
 
     @angry.setter
     def angry(self, value):
-        print("setter of angry called")
+        # print("setter of angry called")
         self._angry = value
 
     @angry.deleter
     def angry(self):
-        print("deleter of angry called")
+        # print("deleter of angry called")
         del self._angry
 
     ####angry end#####
@@ -50,17 +50,17 @@ class EmotionObj(object):
     @property
     def neutral(self):
         """I'm the 'neutral' property."""
-        print("getter of neutral called")
+        # print("getter of neutral called")
         return self._neutral
 
     @neutral.setter
     def neutral(self, value):
-        print("setter of neutral called")
+        # print("setter of neutral called")
         self._neutral = value
 
     @neutral.deleter
     def neutral(self):
-        print("deleter of neutral called")
+        # print("deleter of neutral called")
         del self._neutral
 
     ####neutral end#####
@@ -69,17 +69,17 @@ class EmotionObj(object):
     @property
     def sad(self):
         """I'm the 'sad' property."""
-        print("getter of sad called")
+        # print("getter of sad called")
         return self._sad
 
     @sad.setter
     def sad(self, value):
-        print("setter of sad called")
+        # print("setter of sad called")
         self._sad = value
 
     @sad.deleter
     def sad(self):
-        print("deleter of sad called")
+        # print("deleter of sad called")
         del self._sad
 
     ####sad end#####
@@ -88,17 +88,17 @@ class EmotionObj(object):
     @property
     def disgust(self):
         """I'm the 'disgust' property."""
-        print("getter of disgust called")
+        # print("getter of disgust called")
         return self._disgust
 
     @disgust.setter
     def disgust(self, value):
-        print("setter of disgust called")
+        # print("setter of disgust called")
         self._disgust = value
 
     @disgust.deleter
     def disgust(self):
-        print("deleter of disgust called")
+        # print("deleter of disgust called")
         del self._disgust
 
     ####disgust end#####
@@ -107,17 +107,17 @@ class EmotionObj(object):
     @property
     def surprise(self):
         """I'm the 'surprise' property."""
-        print("getter of surprise called")
+        # print("getter of surprise called")
         return self._surprise
 
     @surprise.setter
     def surprise(self, value):
-        print("setter of surprise called")
+        # print("setter of surprise called")
         self._surprise = value
 
     @surprise.deleter
     def surprise(self):
-        print("deleter of surprise called")
+        # print("deleter of surprise called")
         del self._surprise
 
     ####surprise end#####
@@ -126,17 +126,17 @@ class EmotionObj(object):
     @property
     def fear(self):
         """I'm the 'fear' property."""
-        print("getter of fear called")
+        # print("getter of fear called")
         return self._fear
 
     @fear.setter
     def fear(self, value):
-        print("setter of fear called")
+        # print("setter of fear called")
         self._fear = value
 
     @fear.deleter
     def fear(self):
-        print("deleter of fear called")
+        # print("deleter of fear called")
         del self._fear
 
     ####fear end#####
